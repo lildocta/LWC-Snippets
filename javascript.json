@@ -1,0 +1,56 @@
+{
+	"LWC Imperitive Apex" : {
+		"prefix":"lwc-js-imperitive",
+		"body": [
+			"${1:methodName}({${2:paramName} : this.$2})",
+			".then(data => {",
+			"$3",
+			"}.catch(error => {",
+			"console.log()",
+			"}"
+		],
+		"description" : "Creates the bones for an imperitive apex callout \nmethodName - Name of apex method\nparamName - name of Apex and JS variable/param name"
+	},
+
+	"LWC Pub Event" : {
+		"prefix":"lwc-js-pub",
+		"body": [
+			"//ADD THESE TO IMPORTS AT THE TOP OF PAGE",
+			"import { fireEvent } from 'c/pubsub';",
+			"import { CurrentPageReference } from 'lightning/navigation';",
+			"",
+			"//ADD TO VARIABLE DECLARATION SECTION",
+			"@wire(CurrentPageReference) pageRef;",
+			"",
+			"//ADD TO JS METHOD WHERE YOU WANT TO CALL PUBLISH EVENT",
+			"fireEvent(this.pageRef, '${1:eventName}', this.${2:globalVariableToSub});"
+		],
+		"description" : "Creates the publish side of a pubsub event"
+	},
+
+	"LWC Sub Event" : {
+		"prefix":"lwc-js-sub",
+		"body": [
+			"//ADD THIS TO IMPORTS AT THE TOP OF PAGE",
+			"import { ${4:registerListener, unregisterAllListeners, fireEvent} } from 'c/pubsub';",
+			"",
+			"connectedCallback() {",
+			"   //subscribe to event",
+			"   registerListener(${1:eventName}, this.${2:jsMethodCalled}, this);",
+			"}",
+			"",
+			"disconnectedCallback() {",
+			"   //unsubscribe from event",
+			"   unregisterAllListeners(this);",
+			"}",
+			"",
+			"${2:jsMethodCalled}(variableFromPublishEvent){",
+			"   let detail = event.detail",
+			"   ${3:logic to manipulate detail}",
+			"}"
+		],
+		"description" : "Creates the subscribe side of a pubsub event"
+	}
+
+
+}
